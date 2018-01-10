@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Riot | Riot Man Customiser</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/preflight.min.css" rel="stylesheet">
+        <!-- Any of your own CSS would go here -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/utilities.min.css" rel="stylesheet">
+    </head>
+    <body class="font-sans bg-grey-lighter">
+        <header class="py-4 px-2 bg-white">
+            <div class="container mx-auto">
+                <span class="inline-block bold">Rioter Customizer</span>
+            </div>
+        </header>
+        <main class="mt-6 flex items-stretch">
+            <div class="container mx-auto bg-white">
+                <sidebar options={opts.options}></sidebar>
+                <changing-room></changing-room>
+            </div>
+        </main>
+        <script src="assets/js/main.js"></script>
+    </body>
+</html>

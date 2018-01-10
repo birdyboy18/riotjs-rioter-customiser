@@ -1,0 +1,10 @@
+main {
+    height: 85vh;
+}
+
+.colour {
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius: 9999px;
+}
