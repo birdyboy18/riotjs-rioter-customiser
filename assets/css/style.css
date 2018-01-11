@@ -26,11 +26,24 @@ main {
 }
 
 .layer-wrap img {
-    max-height: 90vh;    
+    max-height: 85vh;    
 }
 
 .layer-wrap .layer {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+footer {
+    background: #383737;
+}
+
+footer p {
+    color: #616161;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
 }
