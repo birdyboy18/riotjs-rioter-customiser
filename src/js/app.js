@@ -13,25 +13,25 @@ const store = {
             {
                 name: 'Spotty Bandanna',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'bandana',
                 hex: '#D92222'
             },
             {
                 name: 'Lol Helmet',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'riot-helmet',
                 hex: '#414042'
             },
             {
                 name: 'Space Helmet',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'alien-helmet',
                 hex: '#18F700'
             },
             {
                 name: 'Nothing',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'base',
                 hex: '#F7CD9C'
             }
         ],
@@ -39,25 +39,25 @@ const store = {
             {
                 name: 'Gold Cross',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'cross',
                 hex: '#FBB040'
             },
             {
                 name: 'Riot Hoodie',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'hoodie',
                 hex: '#891515'
             },
             {
                 name: 'Bikini Top',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'bikini',
                 hex: '#18F700'
             },
             {
                 name: 'Nothing',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'base',
                 hex: '#F7CD9C'
             }
         ],
@@ -65,25 +65,25 @@ const store = {
             {
                 name: 'Shorts',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'shorts',
                 hex: '#282726'
             },
             {
                 name: 'Red Trousers',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'trousers',
                 hex: '#D92222'
             },
             {
                 name: 'Harem Pants',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'harem-pants',
                 hex: '#1C75BC'
             },
             {
                 name: 'Nothing',
                 thumbnail: '',
-                layerSrc: '',
+                layerSrc: 'base',
                 hex: '#F7CD9C'
             }
         ]

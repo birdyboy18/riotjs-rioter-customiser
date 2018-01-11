@@ -3071,64 +3071,64 @@ var store = {
         head: [{
             name: 'Spotty Bandanna',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'bandana',
             hex: '#D92222'
         }, {
             name: 'Lol Helmet',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'riot-helmet',
             hex: '#414042'
         }, {
             name: 'Space Helmet',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'alien-helmet',
             hex: '#18F700'
         }, {
             name: 'Nothing',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'base',
             hex: '#F7CD9C'
         }],
         torso: [{
             name: 'Gold Cross',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'cross',
             hex: '#FBB040'
         }, {
             name: 'Riot Hoodie',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'hoodie',
             hex: '#891515'
         }, {
             name: 'Bikini Top',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'bikini',
             hex: '#18F700'
         }, {
             name: 'Nothing',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'base',
             hex: '#F7CD9C'
         }],
         legs: [{
             name: 'Shorts',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'shorts',
             hex: '#282726'
         }, {
             name: 'Red Trousers',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'trousers',
             hex: '#D92222'
         }, {
             name: 'Harem Pants',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'harem-pants',
             hex: '#1C75BC'
         }, {
             name: 'Nothing',
             thumbnail: '',
-            layerSrc: '',
+            layerSrc: 'base',
             hex: '#F7CD9C'
         }]
     }
@@ -3144,7 +3144,7 @@ _riot2.default.mount('*', store);
 
 
 var riot = __webpack_require__(0);
-riot.tag2('sidebar', '<div class="sidebar bg-blue-darker p-6 w-full h-full md:w-1/4"> <p class="text-white text-sm leading-normal mb-8 block">Click on the below to customise the rioters clothes</p> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Head</p> <colour-list colours="{opts.options.head}" bus="{opts.bus}" layername="head"></colour-list> </div> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Torso</p> <colour-list colours="{opts.options.torso}" bus="{opts.bus}" layername="torso"></colour-list> </div> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Legs</p> <colour-list colours="{opts.options.legs}" bus="{opts.bus}" layername="legs"></colour-list> </div> </div>', '', '', function (opts) {});
+riot.tag2('sidebar', '<div class="sidebar p-6 h-full"> <img src="assets/images/logo.svg" class="block mx-auto mb-4 logo p-4" alt="Riot JS"> <p class="text-white text-sm leading-normal mb-8 block px-4">This is Dave. Dave is fed up. Dave wants to riot. Help Dave pick his perfect rioting outfit by using the customiser below.</p> <div class="customiser px-6 pt-2 pb-2"> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Head</p> <colour-list colours="{opts.options.head}" bus="{opts.bus}" layername="head"></colour-list> </div> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Torso</p> <colour-list colours="{opts.options.torso}" bus="{opts.bus}" layername="torso"></colour-list> </div> <div class="customiser-group mt-6 mb-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Legs</p> <colour-list colours="{opts.options.legs}" bus="{opts.bus}" layername="legs"></colour-list> </div> </div> </div>', '', '', function (opts) {});
 
 /***/ }),
 /* 3 */
@@ -3166,7 +3166,7 @@ riot.tag2('colour-list', '<div class="colour-list flex pt-4"> <colour each="{opt
 var riot = __webpack_require__(0);
 riot.tag2('colour', '<div class="colour mr-4" riot-style="{styles}" onclick="{changeLayer}"></div>', '', '', function (opts) {
     var bus = this.parent.opts.bus;
-    var layerName = this.parent.opts;
+    var layerName = this.parent.opts.layername;
     this.styles = {
         'background-color': this.hex
     };
@@ -3174,7 +3174,7 @@ riot.tag2('colour', '<div class="colour mr-4" riot-style="{styles}" onclick="{ch
     this.changeLayer = function (e) {
         bus.trigger('changeLayer', {
             layerName: layerName,
-            colour: this.hex //replace with image src
+            layerSrc: this.layerSrc //replace with image src
         });
     };
 });
@@ -3187,8 +3187,29 @@ riot.tag2('colour', '<div class="colour mr-4" riot-style="{styles}" onclick="{ch
 
 
 var riot = __webpack_require__(0);
-riot.tag2('changing-room', '', '', '', function (opts) {
-    opts.bus.on('changeLayer', function (payload) {});
+riot.tag2('changing-room', '<div class="layer-wrap"> <img src="assets/images/layers/base.png" alt="Naked Dave" class="base-layer"> <img class="layer" riot-src="{legLayer}"> <img class="layer" riot-src="{torsoLayer}"> <img class="layer" riot-src="{headLayer}"> </div>', '', '', function (opts) {
+    var _this = this;
+
+    var base = 'assets/images/layers/';
+    this.activeLayers = {
+        'head': 'base',
+        'torso': 'base',
+        'legs': 'base'
+    };
+
+    this.updateLayers = function () {
+        this.headLayer = base + '/head/' + this.activeLayers.head + '.png';
+        this.torsoLayer = base + '/torso/' + this.activeLayers.torso + '.png';
+        this.legLayer = base + '/legs/' + this.activeLayers.legs + '.png';
+    };
+
+    this.updateLayers();
+
+    opts.bus.on('changeLayer', function (payload) {
+        _this.activeLayers[payload.layerName] = payload.layerSrc;
+        _this.updateLayers();
+        _this.update();
+    });
 });
 
 /***/ })

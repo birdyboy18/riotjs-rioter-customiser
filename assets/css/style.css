@@ -1,5 +1,9 @@
+body {
+    background: #616161;
+}
+
 main {
-    height: 85vh;
+    /* height: 85vh; */
 }
 
 .colour {
@@ -7,4 +11,26 @@ main {
     height: 30px;
     background: white;
     border-radius: 9999px;
+}
+
+.customiser {
+    background: rgba(0,0,0,0.4);
+}
+
+.logo {
+    width: 100%;
+}
+
+.layer-wrap {
+    position: relative;
+}
+
+.layer-wrap img {
+    max-height: 90vh;    
+}
+
+.layer-wrap .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
