@@ -3069,18 +3069,18 @@ var store = {
     bus: bus,
     options: {
         head: [{
-            name: 'Spotty Bandanna',
-            thumbnail: '',
+            name: 'Spotty Bandana',
+            thumbnail: 'bandana',
             layerSrc: 'bandana',
             hex: '#D92222'
         }, {
             name: 'Lol Helmet',
-            thumbnail: '',
+            thumbnail: 'lol',
             layerSrc: 'riot-helmet',
             hex: '#414042'
         }, {
             name: 'Space Helmet',
-            thumbnail: '',
+            thumbnail: 'alien-helmet',
             layerSrc: 'alien-helmet',
             hex: '#18F700'
         }, {
@@ -3091,17 +3091,17 @@ var store = {
         }],
         torso: [{
             name: 'Gold Cross',
-            thumbnail: '',
+            thumbnail: 'cross',
             layerSrc: 'cross',
             hex: '#FBB040'
         }, {
             name: 'Riot Hoodie',
-            thumbnail: '',
+            thumbnail: 'fist',
             layerSrc: 'hoodie',
             hex: '#891515'
         }, {
             name: 'Bikini Top',
-            thumbnail: '',
+            thumbnail: 'bikini',
             layerSrc: 'bikini',
             hex: '#18F700'
         }, {
@@ -3112,7 +3112,7 @@ var store = {
         }],
         legs: [{
             name: 'Shorts',
-            thumbnail: '',
+            thumbnail: 'belt',
             layerSrc: 'shorts',
             hex: '#282726'
         }, {
@@ -3122,7 +3122,7 @@ var store = {
             hex: '#D92222'
         }, {
             name: 'Harem Pants',
-            thumbnail: '',
+            thumbnail: 'hippy',
             layerSrc: 'harem-pants',
             hex: '#1C75BC'
         }, {
@@ -3167,9 +3167,15 @@ var riot = __webpack_require__(0);
 riot.tag2('colour', '<div class="colour mr-4" riot-style="{styles}" onclick="{changeLayer}"></div>', '', '', function (opts) {
     var bus = this.parent.opts.bus;
     var layerName = this.parent.opts.layername;
-    this.styles = {
-        'background-color': this.hex
-    };
+    if (this.thumbnail !== '') {
+        this.styles = {
+            'background': 'url(assets/images/thumbs/' + this.thumbnail + '.png) no-repeat 50% 50% / cover'
+        };
+    } else {
+        this.styles = {
+            'background-color': this.hex
+        };
+    }
 
     this.changeLayer = function (e) {
         bus.trigger('changeLayer', {

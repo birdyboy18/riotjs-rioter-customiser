@@ -11,20 +11,20 @@ const store = {
     options: {
         head: [
             {
-                name: 'Spotty Bandanna',
-                thumbnail: '',
+                name: 'Spotty Bandana',
+                thumbnail: 'bandana',
                 layerSrc: 'bandana',
                 hex: '#D92222'
             },
             {
                 name: 'Lol Helmet',
-                thumbnail: '',
+                thumbnail: 'lol',
                 layerSrc: 'riot-helmet',
                 hex: '#414042'
             },
             {
                 name: 'Space Helmet',
-                thumbnail: '',
+                thumbnail: 'alien-helmet',
                 layerSrc: 'alien-helmet',
                 hex: '#18F700'
             },
@@ -38,19 +38,19 @@ const store = {
         torso: [
             {
                 name: 'Gold Cross',
-                thumbnail: '',
+                thumbnail: 'cross',
                 layerSrc: 'cross',
                 hex: '#FBB040'
             },
             {
                 name: 'Riot Hoodie',
-                thumbnail: '',
+                thumbnail: 'fist',
                 layerSrc: 'hoodie',
                 hex: '#891515'
             },
             {
                 name: 'Bikini Top',
-                thumbnail: '',
+                thumbnail: 'bikini',
                 layerSrc: 'bikini',
                 hex: '#18F700'
             },
@@ -64,7 +64,7 @@ const store = {
         legs: [
             {
                 name: 'Shorts',
-                thumbnail: '',
+                thumbnail: 'belt',
                 layerSrc: 'shorts',
                 hex: '#282726'
             },
@@ -76,7 +76,7 @@ const store = {
             },
             {
                 name: 'Harem Pants',
-                thumbnail: '',
+                thumbnail: 'hippy',
                 layerSrc: 'harem-pants',
                 hex: '#1C75BC'
             },
