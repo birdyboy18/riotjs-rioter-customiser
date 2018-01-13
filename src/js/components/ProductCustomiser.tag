@@ -12,7 +12,7 @@
             /**
             * Calling this updates child components but they think nothing has changed
             * I'm certain I must be missing something
-            * /
+            */
             //this.update();
         });
     </script>
