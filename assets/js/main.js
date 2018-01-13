@@ -3211,15 +3211,21 @@ exports.default = Store;
 
 
 var riot = __webpack_require__(0);
-riot.tag2('product-customiser', '<main class="mt-6 flex items-stretch"> <div class="container mx-auto flex items-stretch"> <sidebar store="{opts.store}" class="w-1/4"></sidebar> <changing-room store="{opts.store}" class="w-3/4 flex justify-center"></changing-room> </div> </main>', '', '', function (opts) {
+riot.tag2('product-customiser', '<main class="mt-6 flex items-stretch"> <div class="container mx-auto flex items-stretch"> <sidebar options="{state.options}" activelayers="{state.activeLayers}" store="{opts.store}" class="w-1/4"></sidebar> <changing-room activelayers="{state.activeLayers}" store="{opts.store}" class="w-3/4 flex justify-center"></changing-room> </div> </main>', '', '', function (opts) {
+    var _this = this;
+
     var store = this.opts.store;
 
+    this.state = store.getState;
     store.on('CHANGE', function () {
         /**
         * Calling this updates child components but they think nothing has changed
         * I'm certain I must be missing something
+        * tried swapping to passing state down and then re-assigning on change causing the state tree to get re-evaluated, still not working :(
         */
-        //this.update();
+        _this.update({
+            //state: store.getState
+        });
     });
 });
 
@@ -3231,7 +3237,7 @@ riot.tag2('product-customiser', '<main class="mt-6 flex items-stretch"> <div cla
 
 
 var riot = __webpack_require__(0);
-riot.tag2('sidebar', '<div class="sidebar p-6 pt-2 h-full"> <img src="assets/images/logo.svg" class="block mx-auto mb-4 logo p-4" alt="Riot JS"> <p class="text-white text-sm leading-normal mb-8 block px-4">This is Dave. Dave is fed up. Dave wants to riot. Help Dave pick his perfect rioting outfit by using the customiser below.</p> <div class="customiser px-6 pt-2 pb-2"> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Head</p> <colour-list colours="{opts.store.getState.options.head}" store="{opts.store}" layername="head"></colour-list> </div> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Torso</p> <colour-list colours="{opts.store.getState.options.torso}" store="{opts.store}" layername="torso"></colour-list> </div> <div class="customiser-group mt-6 mb-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Legs</p> <colour-list colours="{opts.store.getState.options.legs}" store="{opts.store}" layername="legs"></colour-list> </div> </div> </div>', '', '', function (opts) {});
+riot.tag2('sidebar', '<div class="sidebar p-6 pt-2 h-full"> <img src="assets/images/logo.svg" class="block mx-auto mb-4 logo p-4" alt="Riot JS"> <p class="text-white text-sm leading-normal mb-8 block px-4">This is Dave. Dave is fed up. Dave wants to riot. Help Dave pick his perfect rioting outfit by using the customiser below.</p> <div class="customiser px-6 pt-2 pb-2"> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Head</p> <colour-list colours="{this.opts.options.head}" activelayers="{this.opts.activelayers}" store="{opts.store}" layername="head"></colour-list> </div> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Torso</p> <colour-list colours="{this.opts.options.torso}" activelayers="{this.opts.activelayers}" store="{opts.store}" layername="torso"></colour-list> </div> <div class="customiser-group mt-6 mb-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Legs</p> <colour-list colours="{this.opts.options.legs}" activelayers="{this.opts.activelayers}" store="{opts.store}" layername="legs"></colour-list> </div> </div> </div>', '', '', function (opts) {});
 
 /***/ }),
 /* 5 */
@@ -3256,10 +3262,11 @@ riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{
 
     var _parent$opts = this.parent.opts,
         store = _parent$opts.store,
-        layername = _parent$opts.layername;
+        layername = _parent$opts.layername,
+        activelayers = _parent$opts.activelayers;
 
 
-    this.isActive = store.getState.activeLayers[layername] === this.layerSrc ? true : false;
+    this.isActive = activelayers[layername] === this.layerSrc ? true : false;
 
     if (this.thumbnail !== '') {
         this.styles = {
@@ -3283,7 +3290,6 @@ riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{
 
     store.on('CHANGE', function () {
         _this.isActive = store.getState.activeLayers[layername] === _this.layerSrc ? true : false;
-        _this.update();
     });
 });
 
@@ -3295,23 +3301,24 @@ riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{
 
 
 var riot = __webpack_require__(0);
-riot.tag2('changing-room', '<div class="layer-wrap"> <img src="assets/images/layers/base.png" alt="Naked Dave" class="base-layer"> <img class="layer" riot-src="{legLayer}"> <img class="layer" riot-src="{torsoLayer}"> <img class="layer" riot-src="{headLayer}"> </div>', '', '', function (opts) {
+riot.tag2('changing-room', '<div class="layer-wrap"> <img src="assets/images/layers/base.png" alt="Naked Dave" class="base-layer"> <img class="layer" riot-src="{this.legLayer}"> <img class="layer" riot-src="{this.torsoLayer}"> <img class="layer" riot-src="{this.headLayer}"> </div>', '', '', function (opts) {
     var _this = this;
 
     var base = 'assets/images/layers';
-    var store = this.opts.store;
+    var _opts = this.opts,
+        store = _opts.store,
+        activelayers = _opts.activelayers;
 
 
-    this.headLayer = base + '/head/' + this.opts.store.getState.activeLayers.head + '.png';
-    this.torsoLayer = base + '/torso/' + this.opts.store.getState.activeLayers.torso + '.png';
-    this.legLayer = base + '/legs/' + this.opts.store.getState.activeLayers.legs + '.png';
+    this.headLayer = base + '/head/' + activelayers.head + '.png';
+    this.torsoLayer = base + '/torso/' + activelayers.torso + '.png';
+    this.legLayer = base + '/legs/' + activelayers.legs + '.png';
 
     //listen to the store change event and re-set up any needed changes and then call update
     store.on('CHANGE', function () {
-        _this.headLayer = base + '/head/' + store.getState.activeLayers.head + '.png';
-        _this.torsoLayer = base + '/torso/' + store.getState.activeLayers.torso + '.png';
-        _this.legLayer = base + '/legs/' + store.getState.activeLayers.legs + '.png';
-        _this.update();
+        _this.headLayer = base + '/head/' + activelayers.head + '.png';
+        _this.torsoLayer = base + '/torso/' + activelayers.torso + '.png';
+        _this.legLayer = base + '/legs/' + activelayers.legs + '.png';
     });
 });
 

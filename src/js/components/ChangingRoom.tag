@@ -1,24 +1,23 @@
 <changing-room>
     <div class="layer-wrap">
         <img src="assets/images/layers/base.png" alt="Naked Dave" class="base-layer">
-        <img class="layer" src="{ legLayer }">
-        <img class="layer" src="{ torsoLayer }">
-        <img class="layer" src="{ headLayer }">
+        <img class="layer" src="{ this.legLayer }">
+        <img class="layer" src="{ this.torsoLayer }">
+        <img class="layer" src="{ this.headLayer }">
     </div>
     <script>
         let base = 'assets/images/layers'
-        let { store } = this.opts
+        let { store, activelayers } = this.opts
 
-        this.headLayer = `${base}/head/${this.opts.store.getState.activeLayers.head}.png`
-        this.torsoLayer = `${base}/torso/${this.opts.store.getState.activeLayers.torso}.png`
-        this.legLayer = `${base}/legs/${this.opts.store.getState.activeLayers.legs}.png`
+        this.headLayer = `${base}/head/${activelayers.head}.png`
+        this.torsoLayer = `${base}/torso/${activelayers.torso}.png`
+        this.legLayer = `${base}/legs/${activelayers.legs}.png`
 
         //listen to the store change event and re-set up any needed changes and then call update
         store.on('CHANGE', () => {
-            this.headLayer = `${base}/head/${store.getState.activeLayers.head}.png`
-            this.torsoLayer = `${base}/torso/${store.getState.activeLayers.torso}.png`
-            this.legLayer = `${base}/legs/${store.getState.activeLayers.legs}.png`
-            this.update()
+            this.headLayer = `${base}/head/${activelayers.head}.png`
+            this.torsoLayer = `${base}/torso/${activelayers.torso}.png`
+            this.legLayer = `${base}/legs/${activelayers.legs}.png`
         })
     </script>
 </changing-room>

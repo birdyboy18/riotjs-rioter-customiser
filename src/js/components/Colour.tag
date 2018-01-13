@@ -3,9 +3,9 @@
     <div class="colour mr-4 { isActive: isActive }" style={ styles } onclick='{ changeLayer }'></div>
     
     <script>
-        let { store, layername } = this.parent.opts
+        let { store, layername, activelayers } = this.parent.opts
 
-        this.isActive = (store.getState.activeLayers[layername] === this.layerSrc) ? true : false;
+        this.isActive = (activelayers[layername] === this.layerSrc) ? true : false;
         
         if (this.thumbnail !== '') {
             this.styles = {
@@ -29,7 +29,6 @@
 
         store.on('CHANGE', () => {
             this.isActive = (store.getState.activeLayers[layername] === this.layerSrc) ? true : false;
-            this.update()
         })
     </script>
 </colour>
