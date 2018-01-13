@@ -7,24 +7,21 @@
     </div>
     <script type="es6">
         let base = 'assets/images/layers/'
-        this.activeLayers = {
-            'head': 'base',
-            'torso': 'base',
-            'legs': 'base'
-        }
-
+        
         this.updateLayers = function() {
-            this.headLayer = `${base}/head/${this.activeLayers.head}.png`
-            this.torsoLayer = `${base}/torso/${this.activeLayers.torso}.png`
-            this.legLayer = `${base}/legs/${this.activeLayers.legs}.png`
+            this.headLayer = `${base}/head/${this.opts.activeLayers.head}.png`
+            this.torsoLayer = `${base}/torso/${this.opts.activeLayers.torso}.png`
+            this.legLayer = `${base}/legs/${this.opts.activeLayers.legs}.png`
         }
-
-        this.updateLayers()
         
         opts.bus.on('changeLayer', payload => {
-            this.activeLayers[payload.layerName] = payload.layerSrc
+            this.opts.activeLayers[payload.layerName] = payload.layerSrc
             this.updateLayers()
             this.update()
+        })
+
+        this.on('mount', () => {
+            this.updateLayers()
         })
     </script>
 </changing-room>

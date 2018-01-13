@@ -3045,28 +3045,38 @@ var _riot = __webpack_require__(0);
 
 var _riot2 = _interopRequireDefault(_riot);
 
-var _sidebar = __webpack_require__(2);
+var _Store = __webpack_require__(2);
+
+var _Store2 = _interopRequireDefault(_Store);
+
+var _ProductCustomiser = __webpack_require__(3);
+
+var _ProductCustomiser2 = _interopRequireDefault(_ProductCustomiser);
+
+var _sidebar = __webpack_require__(4);
 
 var _sidebar2 = _interopRequireDefault(_sidebar);
 
-var _ColourList = __webpack_require__(3);
+var _ColourList = __webpack_require__(5);
 
 var _ColourList2 = _interopRequireDefault(_ColourList);
 
-var _Colour = __webpack_require__(4);
+var _Colour = __webpack_require__(6);
 
 var _Colour2 = _interopRequireDefault(_Colour);
 
-var _ChangingRoom = __webpack_require__(5);
+var _ChangingRoom = __webpack_require__(7);
 
 var _ChangingRoom2 = _interopRequireDefault(_ChangingRoom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var bus = _riot2.default.observable();
-
-var store = {
-    bus: bus,
+var initialState = {
+    activeLayers: {
+        'head': 'base',
+        'torso': 'base',
+        'legs': 'base'
+    },
     options: {
         head: [{
             name: 'Spotty Bandana',
@@ -3134,7 +3144,7 @@ var store = {
     }
 };
 
-_riot2.default.mount('*', store);
+_riot2.default.mount('*', { store: new _Store2.default(initialState) });
 
 /***/ }),
 /* 2 */
@@ -3143,8 +3153,49 @@ _riot2.default.mount('*', store);
 "use strict";
 
 
-var riot = __webpack_require__(0);
-riot.tag2('sidebar', '<div class="sidebar p-6 pt-2 h-full"> <img src="assets/images/logo.svg" class="block mx-auto mb-4 logo p-4" alt="Riot JS"> <p class="text-white text-sm leading-normal mb-8 block px-4">This is Dave. Dave is fed up. Dave wants to riot. Help Dave pick his perfect rioting outfit by using the customiser below.</p> <div class="customiser px-6 pt-2 pb-2"> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Head</p> <colour-list colours="{opts.options.head}" bus="{opts.bus}" layername="head"></colour-list> </div> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Torso</p> <colour-list colours="{opts.options.torso}" bus="{opts.bus}" layername="torso"></colour-list> </div> <div class="customiser-group mt-6 mb-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Legs</p> <colour-list colours="{opts.options.legs}" bus="{opts.bus}" layername="legs"></colour-list> </div> </div> </div>', '', '', function (opts) {});
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Simple Store pattern that extends the riot observable
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+
+
+var _riot = __webpack_require__(0);
+
+var _riot2 = _interopRequireDefault(_riot);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Store = function () {
+    function Store(initialState) {
+        _classCallCheck(this, Store);
+
+        _riot2.default.observable(this);
+        this.state = initialState || {};
+        this.on('ACTION', this.handleAction);
+    }
+
+    _createClass(Store, [{
+        key: 'handleAction',
+        value: function handleAction(payload) {
+            console.log(payload);
+            this.trigger('CHANGE');
+        }
+    }, {
+        key: 'getState',
+        get: function get() {
+            return this.state;
+        }
+    }]);
+
+    return Store;
+}();
+
+exports.default = Store;
 
 /***/ }),
 /* 3 */
@@ -3154,7 +3205,15 @@ riot.tag2('sidebar', '<div class="sidebar p-6 pt-2 h-full"> <img src="assets/ima
 
 
 var riot = __webpack_require__(0);
-riot.tag2('colour-list', '<div class="colour-list flex pt-4"> <colour each="{opts.colours}"></colour> </div>', '', '', function (opts) {});
+riot.tag2('product-customiser', '<main class="mt-6 flex items-stretch"> <div class="container mx-auto flex items-stretch"> <sidebar store="{opts.store}" class="w-1/4"></sidebar> </div> </main>', '', '', function (opts) {
+    var _this = this;
+
+    var store = this.opts.store;
+
+    store.on('CHANGE', function () {
+        _this.update();
+    });
+});
 
 /***/ }),
 /* 4 */
@@ -3164,9 +3223,34 @@ riot.tag2('colour-list', '<div class="colour-list flex pt-4"> <colour each="{opt
 
 
 var riot = __webpack_require__(0);
-riot.tag2('colour', '<div class="colour mr-4" riot-style="{styles}" onclick="{changeLayer}"></div>', '', '', function (opts) {
-    var bus = this.parent.opts.bus;
+riot.tag2('sidebar', '<div class="sidebar p-6 pt-2 h-full"> <img src="assets/images/logo.svg" class="block mx-auto mb-4 logo p-4" alt="Riot JS"> <p class="text-white text-sm leading-normal mb-8 block px-4">This is Dave. Dave is fed up. Dave wants to riot. Help Dave pick his perfect rioting outfit by using the customiser below.</p> <div class="customiser px-6 pt-2 pb-2"> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Head</p> <colour-list colours="{opts.store.getState.options.head}" store="{opts.store}" layername="head"></colour-list> </div> <div class="customiser-group mt-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Torso</p> <colour-list colours="{opts.store.getState.options.torso}" store="{opts.store}" layername="torso"></colour-list> </div> <div class="customiser-group mt-6 mb-6"> <p class="bold text-grey-light text-sm uppercase tracking-wide">Legs</p> <colour-list colours="{opts.store.getState.options.legs}" store="{opts.store}" layername="legs"></colour-list> </div> </div> </div>', '', '', function (opts) {});
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var riot = __webpack_require__(0);
+riot.tag2('colour-list', '<div class="colour-list flex pt-4"> <colour each="{opts.colours}"></colour> </div>', '', '', function (opts) {});
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var riot = __webpack_require__(0);
+riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{styles}" onclick="{changeLayer}"></div>', '', '', function (opts) {
+    var _this = this;
+
+    var store = this.parent.opts.store;
     var layerName = this.parent.opts.layername;
+
+    this.isActive = false;
+
     if (this.thumbnail !== '') {
         this.styles = {
             'background': 'url(assets/images/thumbs/' + this.thumbnail + '.png) no-repeat 50% 50% / cover'
@@ -3178,15 +3262,30 @@ riot.tag2('colour', '<div class="colour mr-4" riot-style="{styles}" onclick="{ch
     }
 
     this.changeLayer = function (e) {
-        bus.trigger('changeLayer', {
-            layerName: layerName,
-            layerSrc: this.layerSrc //replace with image src
+        store.trigger('ACTION', {
+            name: 'CHANGE_LAYER',
+            data: {
+                layerName: layerName,
+                layerSrc: _this.layerSrc //replace with image src
+            }
         });
     };
+
+    /** this.checkActive = () => {
+        if (store.getState[this.parent.opts.layername] === this.layerSrc) {
+            this.isActive = true
+        } else {
+            this.isActive = false
+        }
+        this.update()
+    }
+     this.on('mount', () => {
+        this.checkActive()
+    }) */
 });
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3197,24 +3296,21 @@ riot.tag2('changing-room', '<div class="layer-wrap"> <img src="assets/images/lay
     var _this = this;
 
     var base = 'assets/images/layers/';
-    this.activeLayers = {
-        'head': 'base',
-        'torso': 'base',
-        'legs': 'base'
-    };
 
     this.updateLayers = function () {
-        this.headLayer = base + '/head/' + this.activeLayers.head + '.png';
-        this.torsoLayer = base + '/torso/' + this.activeLayers.torso + '.png';
-        this.legLayer = base + '/legs/' + this.activeLayers.legs + '.png';
+        this.headLayer = base + '/head/' + this.opts.activeLayers.head + '.png';
+        this.torsoLayer = base + '/torso/' + this.opts.activeLayers.torso + '.png';
+        this.legLayer = base + '/legs/' + this.opts.activeLayers.legs + '.png';
     };
 
-    this.updateLayers();
-
     opts.bus.on('changeLayer', function (payload) {
-        _this.activeLayers[payload.layerName] = payload.layerSrc;
+        _this.opts.activeLayers[payload.layerName] = payload.layerSrc;
         _this.updateLayers();
         _this.update();
+    });
+
+    this.on('mount', function () {
+        _this.updateLayers();
     });
 });
 

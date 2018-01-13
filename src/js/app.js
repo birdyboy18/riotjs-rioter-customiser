@@ -1,13 +1,17 @@
 import riot from 'riot'
+import Store from './Store'
+import ProductCustomier from './components/ProductCustomiser.tag'
 import sidebar from './components/sidebar.tag'
 import ColourList from './components/ColourList.tag'
 import Colour from './components/Colour.tag'
 import ChangingRoom from './components/ChangingRoom.tag'
 
-let bus = riot.observable()
-
-const store = {
-    bus,
+const initialState = {
+    activeLayers: {
+        'head': 'base',
+        'torso': 'base',
+        'legs': 'base'
+    },
     options: {
         head: [
             {
@@ -90,4 +94,4 @@ const store = {
     }
 }
 
-riot.mount('*', store);
+riot.mount('*', { store: new Store(initialState) });

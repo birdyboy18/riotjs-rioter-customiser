@@ -5,15 +5,15 @@
         <div class="customiser px-6 pt-2 pb-2">
             <div class="customiser-group mt-6">
                 <p class="bold text-grey-light text-sm uppercase tracking-wide">Head</p>
-                <colour-list colours={opts.options.head} bus={opts.bus} layerName='head'></colour-list>
+                <colour-list colours={opts.store.getState.options.head} store={opts.store} layerName='head'></colour-list>
             </div>
             <div class="customiser-group mt-6">
                 <p class="bold text-grey-light text-sm uppercase tracking-wide">Torso</p>
-                <colour-list colours={opts.options.torso} bus={opts.bus} layerName='torso'></colour-list>
+                <colour-list colours={opts.store.getState.options.torso} store={opts.store} layerName='torso'></colour-list>
             </div>
             <div class="customiser-group mt-6 mb-6">
                 <p class="bold text-grey-light text-sm uppercase tracking-wide">Legs</p>
-                <colour-list colours={opts.options.legs} bus={opts.bus} layerName='legs'></colour-list>
+                <colour-list colours={opts.store.getState.options.legs} store={opts.store} layerName='legs'></colour-list>
             </div>
         </div>
     </div>
