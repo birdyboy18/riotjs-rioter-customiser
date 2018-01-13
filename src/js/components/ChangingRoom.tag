@@ -5,23 +5,20 @@
         <img class="layer" src="{ torsoLayer }">
         <img class="layer" src="{ headLayer }">
     </div>
-    <script type="es6">
-        let base = 'assets/images/layers/'
-        
-        this.updateLayers = function() {
-            this.headLayer = `${base}/head/${this.opts.activeLayers.head}.png`
-            this.torsoLayer = `${base}/torso/${this.opts.activeLayers.torso}.png`
-            this.legLayer = `${base}/legs/${this.opts.activeLayers.legs}.png`
-        }
-        
-        opts.bus.on('changeLayer', payload => {
-            this.opts.activeLayers[payload.layerName] = payload.layerSrc
-            this.updateLayers()
-            this.update()
-        })
+    <script>
+        let base = 'assets/images/layers'
+        let { store } = this.opts
 
-        this.on('mount', () => {
-            this.updateLayers()
+        this.headLayer = `${base}/head/${this.opts.store.getState.activeLayers.head}.png`
+        this.torsoLayer = `${base}/torso/${this.opts.store.getState.activeLayers.torso}.png`
+        this.legLayer = `${base}/legs/${this.opts.store.getState.activeLayers.legs}.png`
+
+        //listen to the store change event and re-set up any needed changes and then call update
+        store.on('CHANGE', () => {
+            this.headLayer = `${base}/head/${store.getState.activeLayers.head}.png`
+            this.torsoLayer = `${base}/torso/${store.getState.activeLayers.torso}.png`
+            this.legLayer = `${base}/legs/${store.getState.activeLayers.legs}.png`
+            this.update()
         })
     </script>
 </changing-room>

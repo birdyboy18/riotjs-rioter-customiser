@@ -2,11 +2,10 @@
     
     <div class="colour mr-4 { isActive: isActive }" style={ styles } onclick='{ changeLayer }'></div>
     
-    <script type='es6'>
-        let store = this.parent.opts.store
-        let layerName = this.parent.opts.layername
+    <script>
+        let { store, layername } = this.parent.opts
 
-        this.isActive = false;
+        this.isActive = (store.getState.activeLayers[layername] === this.layerSrc) ? true : false;
         
         if (this.thumbnail !== '') {
             this.styles = {
@@ -20,25 +19,17 @@
        
         this.changeLayer = (e) => {
             store.trigger('ACTION', {
-                name: 'CHANGE_LAYER',
+                action: 'CHANGE_LAYER',
                 data: {
-                    layerName: layerName,
+                    layerName: layername,
                     layerSrc: this.layerSrc //replace with image src
                 }
             })
         }
 
-        /** this.checkActive = () => {
-            if (store.getState[this.parent.opts.layername] === this.layerSrc) {
-                this.isActive = true
-            } else {
-                this.isActive = false
-            }
+        store.on('CHANGE', () => {
+            this.isActive = (store.getState.activeLayers[layername] === this.layerSrc) ? true : false;
             this.update()
-        }
-
-        this.on('mount', () => {
-            this.checkActive()
-        }) */
+        })
     </script>
 </colour>

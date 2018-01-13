@@ -3182,8 +3182,14 @@ var Store = function () {
     _createClass(Store, [{
         key: 'handleAction',
         value: function handleAction(payload) {
-            console.log(payload);
-            this.trigger('CHANGE');
+            switch (payload.action) {
+                case 'CHANGE_LAYER':
+                    this.state.activeLayers[payload.data.layerName] = payload.data.layerSrc;
+                    this.trigger('CHANGE');
+                default:
+                    //do nothing
+                    this.trigger('CHANGE');
+            }
         }
     }, {
         key: 'getState',
@@ -3199,21 +3205,10 @@ exports.default = Store;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
-var riot = __webpack_require__(0);
-riot.tag2('product-customiser', '<main class="mt-6 flex items-stretch"> <div class="container mx-auto flex items-stretch"> <sidebar store="{opts.store}" class="w-1/4"></sidebar> </div> </main>', '', '', function (opts) {
-    var _this = this;
-
-    var store = this.opts.store;
-
-    store.on('CHANGE', function () {
-        _this.update();
-    });
-});
+throw new Error("Module build failed: SyntaxError: /Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/src/js/components/ProductCustomiser.tag: Unterminated comment (3:12)\n\u001b[0m \u001b[90m 1 | \u001b[39m        let { store } \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mopts\n \u001b[90m 2 | \u001b[39m        store\u001b[33m.\u001b[39mon(\u001b[32m'CHANGE'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 3 | \u001b[39m            \u001b[90m/**\u001b[39m\n \u001b[90m   | \u001b[39m            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 4 | \u001b[39m\u001b[90m            * Calling this updates child components but they think nothing has changed\u001b[39m\n \u001b[90m 5 | \u001b[39m\u001b[90m            * I'm certain I must be missing something\u001b[39m\n \u001b[90m 6 | \u001b[39m\u001b[90m            * /\u001b[39m\u001b[0m\n    at Parser.pp$5.raise (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:4454:13)\n    at Parser.skipBlockComment (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:808:26)\n    at Parser.skipSpace (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:861:20)\n    at Parser.nextToken (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:755:56)\n    at Parser.next (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:691:10)\n    at Parser.eat (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:698:12)\n    at Parser.pp.expect (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:1749:15)\n    at Parser.pp$1.parseBlock (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:2246:8)\n    at Parser.pp$3.parseFunctionBody (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:4235:22)\n    at Parser.pp$3.parseArrowExpression (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:4190:8)\n    at Parser.pp$3.parseParenAndDistinguishExpression (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3855:17)\n    at Parser.pp$3.parseExprAtom (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3709:19)\n    at Parser.pp$3.parseExprSubscripts (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3494:19)\n    at Parser.pp$3.parseMaybeUnary (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3474:19)\n    at Parser.pp$3.parseExprOps (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3404:19)\n    at Parser.pp$3.parseMaybeConditional (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3381:19)\n    at Parser.pp$3.parseMaybeAssign (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3344:19)\n    at Parser.pp$3.parseExprListItem (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:4312:16)\n    at Parser.pp$3.parseCallExpressionArguments (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3573:20)\n    at Parser.pp$3.parseSubscripts (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3533:31)\n    at Parser.pp$3.parseExprSubscripts (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3504:15)\n    at Parser.pp$3.parseMaybeUnary (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3474:19)\n    at Parser.pp$3.parseExprOps (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3404:19)\n    at Parser.pp$3.parseMaybeConditional (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3381:19)\n    at Parser.pp$3.parseMaybeAssign (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3344:19)\n    at Parser.pp$3.parseExpression (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:3306:19)\n    at Parser.pp$1.parseStatement (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:1906:19)\n    at Parser.pp$1.parseBlockBody (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:2268:21)\n    at Parser.pp$1.parseTopLevel (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:1778:8)\n    at Parser.parse (/Users/paulbird/Documents/frontend-framework-attack/riot-product-customiser/node_modules/babylon/lib/index.js:1673:17)");
 
 /***/ }),
 /* 4 */
@@ -3246,10 +3241,12 @@ var riot = __webpack_require__(0);
 riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{styles}" onclick="{changeLayer}"></div>', '', '', function (opts) {
     var _this = this;
 
-    var store = this.parent.opts.store;
-    var layerName = this.parent.opts.layername;
+    var _parent$opts = this.parent.opts,
+        store = _parent$opts.store,
+        layername = _parent$opts.layername;
 
-    this.isActive = false;
+
+    this.isActive = store.getState.activeLayers[layername] === this.layerSrc ? true : false;
 
     if (this.thumbnail !== '') {
         this.styles = {
@@ -3263,25 +3260,18 @@ riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{
 
     this.changeLayer = function (e) {
         store.trigger('ACTION', {
-            name: 'CHANGE_LAYER',
+            action: 'CHANGE_LAYER',
             data: {
-                layerName: layerName,
+                layerName: layername,
                 layerSrc: _this.layerSrc //replace with image src
             }
         });
     };
 
-    /** this.checkActive = () => {
-        if (store.getState[this.parent.opts.layername] === this.layerSrc) {
-            this.isActive = true
-        } else {
-            this.isActive = false
-        }
-        this.update()
-    }
-     this.on('mount', () => {
-        this.checkActive()
-    }) */
+    store.on('CHANGE', function () {
+        _this.isActive = store.getState.activeLayers[layername] === _this.layerSrc ? true : false;
+        _this.update();
+    });
 });
 
 /***/ }),
@@ -3295,22 +3285,20 @@ var riot = __webpack_require__(0);
 riot.tag2('changing-room', '<div class="layer-wrap"> <img src="assets/images/layers/base.png" alt="Naked Dave" class="base-layer"> <img class="layer" riot-src="{legLayer}"> <img class="layer" riot-src="{torsoLayer}"> <img class="layer" riot-src="{headLayer}"> </div>', '', '', function (opts) {
     var _this = this;
 
-    var base = 'assets/images/layers/';
+    var base = 'assets/images/layers';
+    var store = this.opts.store;
 
-    this.updateLayers = function () {
-        this.headLayer = base + '/head/' + this.opts.activeLayers.head + '.png';
-        this.torsoLayer = base + '/torso/' + this.opts.activeLayers.torso + '.png';
-        this.legLayer = base + '/legs/' + this.opts.activeLayers.legs + '.png';
-    };
 
-    opts.bus.on('changeLayer', function (payload) {
-        _this.opts.activeLayers[payload.layerName] = payload.layerSrc;
-        _this.updateLayers();
+    this.headLayer = base + '/head/' + this.opts.store.getState.activeLayers.head + '.png';
+    this.torsoLayer = base + '/torso/' + this.opts.store.getState.activeLayers.torso + '.png';
+    this.legLayer = base + '/legs/' + this.opts.store.getState.activeLayers.legs + '.png';
+
+    //listen to the store change event and re-set up any needed changes and then call update
+    store.on('CHANGE', function () {
+        _this.headLayer = base + '/head/' + store.getState.activeLayers.head + '.png';
+        _this.torsoLayer = base + '/torso/' + store.getState.activeLayers.torso + '.png';
+        _this.legLayer = base + '/legs/' + store.getState.activeLayers.legs + '.png';
         _this.update();
-    });
-
-    this.on('mount', function () {
-        _this.updateLayers();
     });
 });
 

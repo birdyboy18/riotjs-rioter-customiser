@@ -11,8 +11,14 @@ class Store {
     }
 
     handleAction(payload) {
-        console.log(payload);
-        this.trigger('CHANGE')
+        switch(payload.action) {
+            case 'CHANGE_LAYER':
+                this.state.activeLayers[payload.data.layerName] = payload.data.layerSrc
+                this.trigger('CHANGE')
+            default: 
+                //do nothing
+                this.trigger('CHANGE')
+        }
     }
 
     get getState() {
