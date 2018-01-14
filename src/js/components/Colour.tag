@@ -3,7 +3,7 @@
     <div class="colour mr-4 { isActive: isActive }" style={ styles } onclick='{ changeLayer }'></div>
     
     <script>
-        let { store, layername, activelayers } = this.parent.opts
+        let { layername, activelayers } = this.parent.opts
 
         this.isActive = (activelayers[layername] === this.layerSrc) ? true : false;
         
@@ -18,7 +18,7 @@
         }
        
         this.changeLayer = (e) => {
-            store.trigger('ACTION', {
+            this.store.trigger('ACTION', {
                 action: 'CHANGE_LAYER',
                 data: {
                     layerName: layername,
@@ -27,8 +27,8 @@
             })
         }
 
-        store.on('CHANGE', () => {
-            this.isActive = (store.getState.activeLayers[layername] === this.layerSrc) ? true : false;
+        this.store.on('CHANGE', () => {
+            this.isActive = (activelayers[layername] === this.layerSrc) ? true : false;
         })
     </script>
 </colour>

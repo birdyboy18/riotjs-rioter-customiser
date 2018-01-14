@@ -3069,6 +3069,10 @@ var _ChangingRoom = __webpack_require__(7);
 
 var _ChangingRoom2 = _interopRequireDefault(_ChangingRoom);
 
+var _storeMixin = __webpack_require__(8);
+
+var _storeMixin2 = _interopRequireDefault(_storeMixin);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
@@ -3142,9 +3146,11 @@ var initialState = {
             hex: '#F7CD9C'
         }]
     }
-};
 
-_riot2.default.mount('*', { store: new _Store2.default(initialState) });
+    //use a mix in to make our store available to all tags globally
+};_riot2.default.mixin((0, _storeMixin2.default)(new _Store2.default(initialState)));
+
+_riot2.default.mount('*');
 
 /***/ }),
 /* 2 */
@@ -3211,20 +3217,18 @@ exports.default = Store;
 
 
 var riot = __webpack_require__(0);
-riot.tag2('product-customiser', '<main class="mt-6 flex items-stretch"> <div class="container mx-auto flex items-stretch"> <sidebar options="{state.options}" activelayers="{state.activeLayers}" store="{opts.store}" class="w-1/4"></sidebar> <changing-room activelayers="{state.activeLayers}" store="{opts.store}" class="w-3/4 flex justify-center"></changing-room> </div> </main>', '', '', function (opts) {
+riot.tag2('product-customiser', '<main class="mt-6 flex items-stretch"> <div class="container mx-auto flex items-stretch"> <sidebar options="{state.options}" activelayers="{state.activeLayers}" class="w-1/4"></sidebar> <changing-room activelayers="{state.activeLayers}" class="w-3/4 flex justify-center"></changing-room> </div> </main>', '', '', function (opts) {
     var _this = this;
 
-    var store = this.opts.store;
-
-    this.state = store.getState;
-    store.on('CHANGE', function () {
+    this.state = this.store.getState;
+    this.store.on('CHANGE', function () {
         /**
         * Calling this updates child components but they think nothing has changed
         * I'm certain I must be missing something
         * tried swapping to passing state down and then re-assigning on change causing the state tree to get re-evaluated, still not working :(
         */
         _this.update({
-            //state: store.getState
+            state: _this.store.getState
         });
     });
 });
@@ -3261,7 +3265,6 @@ riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{
     var _this = this;
 
     var _parent$opts = this.parent.opts,
-        store = _parent$opts.store,
         layername = _parent$opts.layername,
         activelayers = _parent$opts.activelayers;
 
@@ -3279,7 +3282,7 @@ riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{
     }
 
     this.changeLayer = function (e) {
-        store.trigger('ACTION', {
+        _this.store.trigger('ACTION', {
             action: 'CHANGE_LAYER',
             data: {
                 layerName: layername,
@@ -3288,8 +3291,8 @@ riot.tag2('colour', '<div class="colour mr-4 {isActive: isActive}" riot-style="{
         });
     };
 
-    store.on('CHANGE', function () {
-        _this.isActive = store.getState.activeLayers[layername] === _this.layerSrc ? true : false;
+    this.store.on('CHANGE', function () {
+        _this.isActive = activelayers[layername] === _this.layerSrc ? true : false;
     });
 });
 
@@ -3305,9 +3308,7 @@ riot.tag2('changing-room', '<div class="layer-wrap"> <img src="assets/images/lay
     var _this = this;
 
     var base = 'assets/images/layers';
-    var _opts = this.opts,
-        store = _opts.store,
-        activelayers = _opts.activelayers;
+    var activelayers = this.opts.activelayers;
 
 
     this.headLayer = base + '/head/' + activelayers.head + '.png';
@@ -3315,12 +3316,32 @@ riot.tag2('changing-room', '<div class="layer-wrap"> <img src="assets/images/lay
     this.legLayer = base + '/legs/' + activelayers.legs + '.png';
 
     //listen to the store change event and re-set up any needed changes and then call update
-    store.on('CHANGE', function () {
+    this.store.on('CHANGE', function () {
         _this.headLayer = base + '/head/' + activelayers.head + '.png';
         _this.torsoLayer = base + '/torso/' + activelayers.torso + '.png';
         _this.legLayer = base + '/legs/' + activelayers.legs + '.png';
     });
 });
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function storeMixin(store) {
+    return {
+        init: function init() {
+            this.store = store;
+        }
+    };
+}
+
+exports.default = storeMixin;
 
 /***/ })
 /******/ ]);
